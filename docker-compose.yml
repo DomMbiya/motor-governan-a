@@ -1,0 +1,36 @@
+# Motor Determinístico Focado em Governança: tudo roda nesta máquina.
+# Rede interna sem saída para a internet: nenhum dado do evento sai do ambiente.
+services:
+  backend:
+    build: ./backend
+    environment:
+      DATA_DIR: /data
+      APP_TIMEZONE: America/Fortaleza
+      LOG_LEVEL: INFO
+      ALLOWED_ORIGINS: http://localhost:3000
+    volumes:
+      - dados:/data
+      - ./backend/rules:/app/rules   # editar o YAML aqui publica uma nova versão sem rebuild
+    networks: [interna]
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        BACKEND_URL: http://backend:8000
+    ports:
+      - "127.0.0.1:3000:3000"   # exposto só para o próprio notebook
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks: [interna, publica]
+    restart: unless-stopped
+
+networks:
+  interna:
+    internal: true   # o backend não alcança a internet
+  publica: {}
+
+volumes:
+  dados:

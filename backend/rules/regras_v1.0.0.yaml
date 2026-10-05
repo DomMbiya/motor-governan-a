@@ -1,0 +1,247 @@
+# =============================================================================
+# Base de regras — Motor Determinístico Focado em Governança
+# Análise preliminar de enquadramento na Lei do Bem
+#
+# REGRAS SÃO DADOS, NÃO CÓDIGO.
+# Para alterar qualquer pergunta, texto de ajuda, fonte ou lógica:
+#   1. copie este arquivo para regras_vX.Y.Z.yaml com a nova versão;
+#   2. altere o campo metadados.versao e registre a mudança no changelog;
+#   3. reinicie nada: o sistema detecta o arquivo novo automaticamente.
+# O sistema recusa um arquivo cujo conteúdo mudou sem mudança de versão,
+# porque isso quebraria a rastreabilidade dos dossiês já emitidos.
+# =============================================================================
+
+schema: 1
+
+metadados:
+  versao: "1.0.0"
+  vigencia: "2026-10-05"
+  titulo: "Base de regras de enquadramento preliminar na Lei do Bem"
+  responsavel: "Equipe interna de P&D (protótipo Hackathon STS 2026)"
+  changelog:
+    - versao: "1.0.0"
+      data: "2026-10-05"
+      descricao: "Versão inicial: classificação da atividade, cinco critérios de Frascati, prova de não rotina e lógica do indicativo."
+
+politicas:
+  justificativa_min_caracteres: 20
+  divergencia_min_caracteres: 40
+  evidencia_max_caracteres: 1500
+  evidencias_max_por_pergunta: 5
+  sugestoes_max_por_pergunta: 3
+
+fontes:
+  - id: frascati
+    titulo: "Manual de Frascati (OCDE)"
+    referencia: "Critérios para identificar atividades de pesquisa e desenvolvimento"
+  - id: lei_do_bem
+    titulo: "Lei nº 11.196/2005 (Lei do Bem), Capítulo III"
+    referencia: "Incentivos fiscais à inovação tecnológica"
+  - id: decreto
+    titulo: "Decreto regulamentador da Lei do Bem (Decreto nº 5.798/2006)"
+    referencia: "Categorias de atividade de inovação tecnológica"
+    observacao: "Conferir redação literal com o material oficial entregue no Dia 1."
+  - id: instrucao_normativa
+    titulo: "Instrução normativa da Receita Federal sobre a Lei do Bem"
+    referencia: "Procedimentos de fruição dos incentivos"
+    observacao: "Número e artigos a confirmar com o material oficial entregue no Dia 1."
+  - id: guia_mcti
+    titulo: "Guia da Lei do Bem (MCTI)"
+    referencia: "Orientações sobre enquadramento e prestação de informações"
+  - id: guia_desafio
+    titulo: "Guia do Desafio — Hackathon STS 2026"
+    referencia: "Exemplos de pesquisa e de não pesquisa (Parte 1)"
+
+classificacao:
+  pergunta: "Qual é o tipo de atividade do projeto?"
+  ajuda: >-
+    Escolha a categoria que melhor descreve o trabalho realizado. Se o projeto
+    misturar categorias, escolha a predominante e explique na justificativa.
+  fonte: decreto
+  opcoes:
+    - id: pesquisa_basica_dirigida
+      rotulo: "Pesquisa básica dirigida"
+      descricao: "Trabalho para gerar conhecimento novo sobre fundamentos de um fenômeno, com um objetivo prático em vista."
+      exemplo: "Estudar como padrões climáticos afetam a capacidade de pagamento de pequenos produtores."
+    - id: pesquisa_aplicada
+      rotulo: "Pesquisa aplicada"
+      descricao: "Trabalho para gerar conhecimento novo voltado a desenvolver ou melhorar um produto, processo ou sistema."
+      exemplo: "Investigar se dados de satélite permitem prever a produtividade de uma safra financiada."
+    - id: desenvolvimento_experimental
+      rotulo: "Desenvolvimento experimental"
+      descricao: "Trabalho sistemático, apoiado em conhecimento existente, para criar ou melhorar significativamente produtos, processos ou sistemas, com incerteza técnica."
+      exemplo: "Construir e testar um modelo preditivo que ninguém sabia se atingiria a precisão necessária."
+    - id: tecnologia_industrial_basica
+      rotulo: "Tecnologia industrial básica"
+      descricao: "Atividades de metrologia, normalização, ensaios e certificação ligadas ao projeto."
+      exemplo: "Desenvolver um método de ensaio próprio para validar um novo equipamento."
+    - id: servicos_apoio_tecnico
+      rotulo: "Serviços de apoio técnico"
+      descricao: "Serviços indispensáveis à execução de projetos de pesquisa, como manutenção de laboratórios dedicados."
+      exemplo: "Operar a infraestrutura de testes usada exclusivamente pelo projeto."
+
+criterios:
+  - id: novidade
+    rotulo: "Novo"
+    pergunta: "Era novo?"
+    definicao: "O projeto buscava um resultado que ainda não existia ou não era conhecido."
+    exemplo_sim: "A equipe tentou prever algo que hoje ninguém consegue prever com os dados disponíveis."
+    exemplo_nao: "A equipe implantou uma solução que já existia no mercado e funcionava da mesma forma."
+    evidencia_suficiente: "Um trecho que mostre o que se buscava e por que isso não estava disponível antes."
+    fonte: frascati
+    palavras_chave: ["inédito", "novo", "nova abordagem", "não existia", "pela primeira vez", "não há solução", "estado da arte", "sem precedente"]
+
+  - id: criatividade
+    rotulo: "Criativo"
+    pergunta: "Foi criativo?"
+    definicao: "O trabalho partiu de uma ideia ou hipótese própria, e não da aplicação de um manual."
+    exemplo_sim: "A equipe formulou a hipótese de que dados de satélite explicariam a inadimplência rural."
+    exemplo_nao: "A equipe seguiu o passo a passo do fornecedor para configurar o sistema."
+    evidencia_suficiente: "Um trecho que mostre a hipótese, a ideia original ou a abordagem própria da equipe."
+    fonte: frascati
+    palavras_chave: ["hipótese", "hipóteses", "propusemos", "abordagem própria", "concebemos", "ideia original", "formulamos"]
+
+  - id: incerteza
+    rotulo: "Incerto"
+    pergunta: "Havia incerteza?"
+    definicao: "Ninguém sabia de antemão se ia funcionar, nem quanto custaria ou quanto tempo levaria."
+    exemplo_sim: "Não havia garantia de que o modelo atingiria a precisão mínima exigida."
+    exemplo_nao: "Já se sabia que a ferramenta funcionaria; a dúvida era apenas de prazo de entrega."
+    evidencia_suficiente: "Um trecho que mostre um risco técnico real, e não apenas risco de cronograma ou orçamento."
+    fonte: frascati
+    palavras_chave: ["incerteza", "não se sabia", "não havia garantia", "risco técnico", "não era possível prever", "desconhecido", "viabilidade"]
+
+  - id: sistematicidade
+    rotulo: "Sistemático"
+    pergunta: "Foi organizado?"
+    definicao: "O trabalho teve método, planejamento e registro, e não foi tentativa e erro solta."
+    exemplo_sim: "A equipe definiu experimentos, métricas de avaliação e registrou cada rodada de testes."
+    exemplo_nao: "A equipe foi ajustando parâmetros sem registro até algo funcionar."
+    evidencia_suficiente: "Um trecho que mostre o método, o plano de trabalho ou o registro dos experimentos."
+    fonte: frascati
+    palavras_chave: ["metodologia", "método", "experimentos", "protocolo", "cronograma", "plano de trabalho", "métricas", "registro"]
+
+  - id: reprodutibilidade
+    rotulo: "Reprodutível"
+    pergunta: "Dá para reproduzir?"
+    definicao: "O conhecimento gerado pode ser transferido e o resultado pode ser repetido por outra equipe."
+    exemplo_sim: "O relatório documenta dados, código e parâmetros suficientes para repetir os testes."
+    exemplo_nao: "O resultado dependeu de ajustes manuais que ninguém documentou."
+    evidencia_suficiente: "Um trecho que mostre documentação, publicação ou registro que permita repetir o resultado."
+    fonte: frascati
+    palavras_chave: ["reprodutível", "reproduzir", "documentação", "documentado", "repositório", "relatório técnico", "publicação", "replicar"]
+
+nao_rotina:
+  titulo: "Prova de não rotina"
+  ajuda: >-
+    Não basta dizer que houve pesquisa: é preciso mostrar que o trabalho não era
+    rotina. Responda cada pergunta com base no material do projeto.
+  fonte: guia_mcti
+  perguntas:
+    - id: solucao_existente
+      ordem: 1
+      pergunta: "Qual solução já existia (no mercado ou no banco) e por que não resolvia o problema?"
+      ajuda: "Cite a alternativa considerada e o limite técnico dela. Se nada existia, mostre onde isso está registrado."
+      palavras_chave: ["solução existente", "soluções disponíveis", "mercado", "não atendia", "limitação", "alternativas"]
+    - id: obstaculo_tecnico
+      ordem: 2
+      pergunta: "Qual era o obstáculo técnico específico que a equipe não sabia de antemão se conseguiria superar?"
+      ajuda: "Descreva a barreira técnica, e não uma dificuldade de prazo, orçamento ou contratação."
+      palavras_chave: ["obstáculo", "desafio técnico", "barreira", "dificuldade técnica", "limitação técnica"]
+    - id: conhecimento_gerado
+      ordem: 4
+      pergunta: "O que foi aprendido que não se sabia antes, mesmo que o resultado tenha sido negativo?"
+      ajuda: "Resultados negativos também geram conhecimento. Mostre o que a equipe passou a saber."
+      palavras_chave: ["aprendemos", "concluímos", "resultado negativo", "lições", "constatamos", "conhecimento gerado"]
+  exclusoes:
+    ordem: 3
+    pergunta: "O trabalho se enquadra em alguma exclusão típica?"
+    ajuda: "Marque qualquer situação que se aplique, mesmo que só a uma parte do projeto. Cada marcação exige explicação."
+    fonte: guia_desafio
+    itens:
+      - id: software_pronto
+        rotulo: "Comprar e configurar software pronto"
+        descricao: "A solução técnica já existia; o trabalho foi adquirir e parametrizar."
+      - id: manutencao
+        rotulo: "Corrigir erros de um sistema que já funciona"
+        descricao: "Manutenção corretiva ou evolutiva sem novo conhecimento técnico."
+      - id: operacao
+        rotulo: "Rodar o processo do dia a dia"
+        descricao: "Operação rotineira, como sempre foi feita."
+
+indicativo:
+  aviso: "O indicativo é uma recomendação calculada, nunca uma aprovação. Quem decide é o analista."
+  resultados:
+    - id: favoravel
+      rotulo: "Favorável"
+      descricao: "Provavelmente é pesquisa. Siga para o parecer."
+      parecer_alinhado: enquadra
+    - id: desfavoravel
+      rotulo: "Desfavorável"
+      descricao: "Pelo menos um critério essencial não foi atendido."
+      parecer_alinhado: nao_enquadra
+    - id: requer_especialista
+      rotulo: "Requer especialista"
+      descricao: "Há pontos que pedem avaliação especializada antes de uma conclusão."
+      parecer_alinhado: encaminhar_especialista
+  # Avaliadas em ordem; vale a primeira que corresponder.
+  # Condições disponíveis: algum_criterio, todos_criterios (sim | nao | inconclusivo)
+  # e exclusao_marcada (true | false). Várias condições na mesma regra são combinadas com "e".
+  regras:
+    - id: IND-01
+      quando: { algum_criterio: nao }
+      resultado: desfavoravel
+      motivo: "Pelo menos um critério de Frascati foi respondido Não."
+    - id: IND-02
+      quando: { algum_criterio: inconclusivo }
+      resultado: requer_especialista
+      motivo: "Nenhum critério foi respondido Não, mas há pontos inconclusivos."
+    - id: IND-03
+      quando: { todos_criterios: sim, exclusao_marcada: true }
+      resultado: requer_especialista
+      motivo: "Todos os critérios foram respondidos Sim, mas uma exclusão típica foi marcada."
+    - id: IND-04
+      quando: { todos_criterios: sim, exclusao_marcada: false }
+      resultado: favoravel
+      motivo: "Todos os critérios foram respondidos Sim e nenhuma exclusão típica foi marcada."
+
+parecer:
+  opcoes:
+    - id: enquadra
+      rotulo: "Enquadra"
+      descricao: "O projeto se enquadra preliminarmente na Lei do Bem."
+    - id: nao_enquadra
+      rotulo: "Não enquadra"
+      descricao: "O projeto não se enquadra preliminarmente na Lei do Bem."
+    - id: encaminhar_especialista
+      rotulo: "Encaminhar a especialista"
+      descricao: "Os pontos listados precisam de avaliação especializada antes de uma conclusão."
+
+dossie:
+  titulo: "Dossiê de Análise Preliminar de Enquadramento"
+  subtitulo: "Lei do Bem — apoio à decisão da equipe interna de P&D"
+  ressalva: "Análise preliminar de apoio à decisão. Não substitui parecer técnico especializado."
+
+glossario:
+  - termo: "Desenvolvimento experimental"
+    definicao: "Tentar resolver um problema técnico sem ter certeza de que vai dar certo. É o que a lei considera pesquisa."
+  - termo: "Dispêndio"
+    definicao: "Gasto. No caso, os gastos que entram na conta do incentivo."
+  - termo: "Dossiê"
+    definicao: "O conjunto de registros que explica e sustenta uma decisão."
+  - termo: "Elegibilidade"
+    definicao: "Se um projeto se encaixa ou não nas regras para receber o benefício."
+  - termo: "FORMP&D"
+    definicao: "Formulário que a empresa envia todo ano ao ministério contando o que pesquisou."
+  - termo: "Frascati"
+    definicao: "Manual internacional da OCDE que define o que é e o que não é pesquisa."
+  - termo: "Glosa"
+    definicao: "Quando o governo rejeita um valor declarado e cobra o imposto de volta."
+  - termo: "MCTI"
+    definicao: "Ministério da Ciência, Tecnologia e Inovação, que analisa os projetos declarados."
+  - termo: "Prova de não rotina"
+    definicao: "Demonstrar que o trabalho não era uma atividade comum do dia a dia."
+  - termo: "Rastreabilidade"
+    definicao: "Conseguir reconstruir depois como e por que uma decisão foi tomada."
+  - termo: "Receita Federal"
+    definicao: "Órgão que fiscaliza a parte fiscal e pode cobrar o imposto de volta."

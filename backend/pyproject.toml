@@ -1,0 +1,24 @@
+[project]
+name = "motor-governanca-backend"
+version = "1.0.0"
+description = "Motor Determinístico Focado em Governança — API de apoio à decisão (Lei do Bem)"
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 160
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "N"]
+ignore = [
+  "B008",  # Depends() em parâmetros é o padrão do FastAPI
+  "N818",  # nomes de erro de domínio são deliberados (NotFound, Conflict...)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/*" = ["E501"]  # prosa do documento fictício
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q -p no:cacheprovider"
+filterwarnings = ["ignore::DeprecationWarning"]

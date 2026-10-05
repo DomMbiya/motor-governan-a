@@ -1,0 +1,48 @@
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-sans/400-italic.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-paper font-sans text-[14px] leading-[1.55] text-ink antialiased;
+    font-feature-settings: "kern", "liga";
+  }
+  ::selection { background: rgba(14, 85, 99, 0.22); }
+  :focus-visible { @apply outline-none ring-2 ring-petrol-500 ring-offset-2 ring-offset-paper; }
+  h1, h2, h3 { text-wrap: balance; }
+}
+
+@layer components {
+  .sheet { @apply rounded-lg border border-line bg-white shadow-sheet; }
+  .field-label { @apply mb-1.5 block text-[13px] font-medium text-ink; }
+  .field-hint { @apply text-[12.5px] leading-snug text-ink-muted; }
+  .input {
+    @apply w-full rounded-md border border-line-strong bg-white px-3 py-2 text-[14px] text-ink placeholder:text-ink-faint
+           transition-colors focus:border-petrol-600 focus:outline-none focus:ring-2 focus:ring-petrol-100 disabled:bg-paper disabled:text-ink-muted;
+  }
+  .input[aria-invalid="true"] { @apply border-nao focus:ring-nao-bg; }
+  .hash { @apply font-mono text-[12px] tracking-tight text-ink-soft; }
+  .scroll-thin { scrollbar-width: thin; scrollbar-color: #B9C6C5 transparent; }
+}
+
+/* ---- pdf.js: camada de texto selecionável -------------------------------- */
+.react-pdf__Page { position: relative; }
+.react-pdf__Page__canvas { display: block; }
+.react-pdf__Page__textContent mark.kw {
+  background: rgba(154, 98, 16, 0.22);
+  color: transparent;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(154, 98, 16, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
+}
